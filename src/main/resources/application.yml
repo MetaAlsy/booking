@@ -1,0 +1,38 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/Booking_app
+    username: postgres
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: "http://localhost:9090/realms/booking"
+application:
+  file:
+    uploads:
+      photos-output-path: ./uploads
+springdoc:
+  default-produces-media-type: application/json
+logging:
+  level:
+    root: INFO   # Livello di log globale
+    org.springframework.web: DEBUG  # Log per tutto il framework Spring
+    com.yourpackage: TRACE  # Log dettagliato per il tuo pacchetto principale
+    org.springframework.security: DEBUG
+server:
+  port: 8088
+  servlet:
+    context-path: /api/
+
