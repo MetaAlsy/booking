@@ -1,10 +1,13 @@
 package com.example.booking.service;
 
+import com.example.booking.entity.Customer;
 import com.example.booking.entity.Hotel;
 import com.example.booking.entity.Room;
 import com.example.booking.exception.OperationNotPermittedException;
+import com.example.booking.repository.CustomerRepository;
 import com.example.booking.repository.HotelRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -12,11 +15,13 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 public class HotelService {
+    @Autowired
     private HotelRepository hotelRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
 
     public List<Room> findAllById(Integer hootelID, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("roomNumber").descending());
@@ -29,8 +34,10 @@ public class HotelService {
         }
     }
 
-    public Hotel save(Hotel hotel) {
-
+    public Hotel save(Hotel hotel,Authentication autenticatedCustomer) {
+        Customer c = customerRepository.findById(autenticatedCustomer.getName())
+                .orElseThrow(()->new EntityNotFoundException("Utente non esiste"));
+        hotel.setOwner(c);
         return hotelRepository.save(hotel);
     }
 

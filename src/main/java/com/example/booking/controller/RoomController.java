@@ -29,7 +29,7 @@ public class RoomController {
         return ResponseEntity.ok(roomService.save(request, connectedUser));
     }
     @GetMapping
-    public ResponseEntity<List<Room>> findAllRooms(@RequestParam(name = "hotel") int hootelID,
+    public ResponseEntity<List<Room>> findAllRooms(@RequestParam(name = "hotel",defaultValue = "53") int hootelID,
                                                    @RequestParam(name = "page", defaultValue = "0", required = false) int page,
                                                    @RequestParam(name = "size", defaultValue = "10", required = false) int size){
         return ResponseEntity.ok(hotelService.findAllById(hootelID,page,size));

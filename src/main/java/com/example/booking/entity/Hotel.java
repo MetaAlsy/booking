@@ -1,6 +1,8 @@
 package com.example.booking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +18,7 @@ import java.util.List;
 public class Hotel {
     @Id
     @Column(name = "HotelID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
     @Column(name = "Name", nullable = false)
@@ -33,16 +36,19 @@ public class Hotel {
     @Column(name = "Stars")
     private Integer stars;
 
-    @Column(name = "CheckinTime")
+    @Column(name = "checkin_Time")
     private String checkinTime;  // TIME in SQL can be mapped to String or LocalTime
 
-    @Column(name = "CheckoutTime")
+    @Column(name = "checkout_Time")
     private String checkoutTime;  // TIME in SQL can be mapped to String or LocalTime
 
     @ManyToOne
-    @JoinColumn(name = "OwnerID", nullable = false)
+    @JoinColumn(name = "OwnerID")//aggiutare nullable false
+    @JsonIgnore
     private Customer owner;  // Proprietario dell'hotel
 
     @OneToMany(mappedBy = "hotel")
+    @JsonIgnore
     private List<Room> rooms;
+
 }

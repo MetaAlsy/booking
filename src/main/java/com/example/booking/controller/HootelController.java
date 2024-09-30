@@ -14,14 +14,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("hotels")
+@CrossOrigin(origins = "http://localhost:4200")
 public class HootelController {
     @Autowired
     private HotelService hotelService;
 
     @PostMapping
     @PreAuthorize("hasRole('owner')")
-    public ResponseEntity<Hotel> saveHotel(@Valid @RequestBody Hotel hotel){
-        return ResponseEntity.ok(hotelService.save(hotel));
+    public ResponseEntity<Hotel> saveHotel(@Valid @RequestBody Hotel hotel,Authentication connectedUser){
+        return ResponseEntity.ok(hotelService.save(hotel,connectedUser));
     }
     @GetMapping
     public ResponseEntity<List<Hotel>> findAllHotels( @RequestParam(name = "page", defaultValue = "0", required = false) int page,
