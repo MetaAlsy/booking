@@ -47,4 +47,15 @@ public class BookingService {
         }
         return booking;
     }
+
+    public Integer cancelBooking(int bookingId, Authentication connectedUser) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new EntityNotFoundException("No such booking  :: " + bookingId));
+        if (!Objects.equals(booking.getCustomer().getId(), connectedUser.getName()) &&
+                (booking.getStaus().equals("annullato") || booking.getStaus().equals("chiuso"))) {
+            throw new OperationNotPermittedException("You cant see other bookigs");
+        }
+        booking.setStaus("annullato");
+        return bookingRepository.save(booking).getId();//booking.getId();
+    }
 }

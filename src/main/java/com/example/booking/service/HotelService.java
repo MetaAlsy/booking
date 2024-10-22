@@ -3,6 +3,7 @@ package com.example.booking.service;
 import com.example.booking.entity.Customer;
 import com.example.booking.entity.Hotel;
 import com.example.booking.entity.Room;
+import com.example.booking.entity.RoomType;
 import com.example.booking.exception.OperationNotPermittedException;
 import com.example.booking.repository.CustomerRepository;
 import com.example.booking.repository.HotelRepository;
@@ -62,5 +63,9 @@ public class HotelService {
             throw new OperationNotPermittedException("You cannot update others hotels");
         }
         return hotelRepository.save(hotel).getId();
+    }
+
+    public List<RoomType> findAllTypes(int hotelID) {
+        return hotelRepository.findAllTypes(hotelID).orElseThrow(() -> new EntityNotFoundException("No hotel found with ID :: " + hotelID));
     }
 }

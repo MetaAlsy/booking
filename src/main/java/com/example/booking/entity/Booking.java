@@ -1,5 +1,6 @@
 package com.example.booking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -16,6 +17,7 @@ public class Booking {
     @Column(name = "BookingID")
     private Integer id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "CustomerID", nullable = false)
     private Customer customer;  // Cliente che ha effettuato la prenotazione
@@ -32,4 +34,6 @@ public class Booking {
 
     @Column(name = "TotalPrice", nullable = false)
     private Double totalPrice;
+    @Column(name = "Status", nullable = false)
+    private String staus;//annulato,attivo,chiuso
 }

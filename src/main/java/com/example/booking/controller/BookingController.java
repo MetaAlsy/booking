@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/booking")
+@RequestMapping("booking")
 public class BookingController {
     @Autowired
     private BookingService bookingService;
@@ -33,5 +33,9 @@ public class BookingController {
     @PostMapping("/update")
     public ResponseEntity<Integer> updateBookign(){
         return null;//da implementare
+    }
+    @PostMapping("/cancel")
+    public ResponseEntity<Integer> cancellBooking(@PathVariable int bookingId,Authentication connectedUser){
+        return ResponseEntity.ok(bookingService.cancelBooking( bookingId, connectedUser));
     }
 }

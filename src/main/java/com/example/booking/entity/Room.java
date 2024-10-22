@@ -1,23 +1,25 @@
 package com.example.booking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Builder
 @Table(name = "Room")
 public class Room {
     @Id
     @Column(name = "RoomNumber")
+
     private Integer roomNumber;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "HotelID", nullable = false)
     private Hotel hotel;
 
@@ -27,4 +29,9 @@ public class Room {
 
     @Column(name = "Status")
     private String status;
+
+    @JsonProperty("hotelId")
+    public Integer getHotelID() {
+        return hotel.getId();
+    }
 }
