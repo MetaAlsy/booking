@@ -5,9 +5,11 @@ import com.example.booking.entity.RoomType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
-public class RoomDTO {
+public class RoomDTO implements Serializable {
     private Integer roomNumber;
     private Integer hotelID;
     private Integer roomTypeID;

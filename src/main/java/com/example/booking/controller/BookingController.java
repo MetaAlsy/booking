@@ -1,5 +1,6 @@
 package com.example.booking.controller;
 
+import com.example.booking.Dto.BookingDto;
 import com.example.booking.entity.Booking;
 import com.example.booking.entity.Hotel;
 import com.example.booking.service.BookingService;
@@ -17,7 +18,7 @@ public class BookingController {
     @Autowired
     private BookingService bookingService;
     @PostMapping
-    public ResponseEntity<Booking> saveBooking(@Valid @RequestBody Booking booking, Authentication connectedUser){
+    public ResponseEntity<Booking> saveBooking(@Valid @RequestBody BookingDto booking, Authentication connectedUser){
         return ResponseEntity.ok(bookingService.save(booking,connectedUser));
     }
     @GetMapping
@@ -34,7 +35,7 @@ public class BookingController {
     public ResponseEntity<Integer> updateBookign(){
         return null;//da implementare
     }
-    @PostMapping("/cancel")
+    @PostMapping("/cancel/{bookingId}")
     public ResponseEntity<Integer> cancellBooking(@PathVariable int bookingId,Authentication connectedUser){
         return ResponseEntity.ok(bookingService.cancelBooking( bookingId, connectedUser));
     }

@@ -11,11 +11,14 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 @Builder
-@Table(name = "Room")
+@Table(name = "Room",uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"RoomNumber", "HotelID"})})
 public class Room {
     @Id
-    @Column(name = "RoomNumber")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Integer id;
 
+    @Column(name = "RoomNumber")
     private Integer roomNumber;
 
     @ManyToOne
@@ -29,6 +32,9 @@ public class Room {
 
     @Column(name = "Status")
     private String status;
+
+    @Column(name = "RoomFoto")
+    private String roomFoto;//path alle foto
 
     @JsonProperty("hotelId")
     public Integer getHotelID() {

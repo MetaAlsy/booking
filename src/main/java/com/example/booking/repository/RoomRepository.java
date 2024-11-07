@@ -21,12 +21,12 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
             "(r.roomType.pricePerNight >= ?3 or ?3 is null) and " +
             "(lower( r.roomType.name) like LOWER( concat(?4,'%')) or ?4 is null ) and " +
             "(r.roomType.capacity >= ?5 or ?5 is null) and " +
-            "not exists (" +
-            "       select b " +
-            "       from Booking b " +
-            "       where b.room = r" +
-            "           and (?6 BETWEEN b.checkinDate AND b.checkoutDate) OR " +
-            "               (?7 BETWEEN b.checkinDate AND b.checkoutDate) OR " +
-            "               (b.checkinDate BETWEEN ?6 AND ?7))")
+            "exists (" +
+            "       select ar " +
+            "       from AvailableRooms ar " +
+            "       where ar.room = r" +
+            "           and  ar.aviableDate>=?6  " +
+            "           and  ar.aviableDate<=?7 " +
+            "           and ar.status = true)")
     Page<Room> findAvanzato(Pageable pageable, Integer hootelID, String address, Double prezzo, String nome, Integer posti, LocalDate dataIn, LocalDate dataFin);
 }

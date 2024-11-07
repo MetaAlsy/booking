@@ -1,5 +1,6 @@
 package com.example.booking.service;
 
+import com.example.booking.Dto.RoomDtoResponse;
 import com.example.booking.entity.Customer;
 import com.example.booking.entity.Hotel;
 import com.example.booking.entity.Room;
@@ -8,6 +9,7 @@ import com.example.booking.exception.OperationNotPermittedException;
 import com.example.booking.repository.CustomerRepository;
 import com.example.booking.repository.HotelRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.security.core.Authentication;
@@ -16,19 +18,21 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class HotelService {
     @Autowired
     private HotelRepository hotelRepository;
     @Autowired
     private CustomerRepository customerRepository;
 
-    public List<Room> findAllById(Integer hootelID, int page, int size) {
+    public List<RoomDtoResponse> findAllById(Integer hootelID, int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("roomNumber").descending());
         Page<Room> rooms = hotelRepository.findAllRoomsByID(pageable,hootelID);
         if ( rooms.hasContent() ) {
-            return rooms.getContent();
+            return rooms.getContent().stream().map(RoomDtoResponse::toResponse).collect(Collectors.toList());
         }
         else {
             return new ArrayList<>();

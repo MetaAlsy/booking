@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 @Getter
 @Setter
@@ -37,7 +38,7 @@ public class Hotel {
     private Integer stars;
 
     @Column(name = "checkin_Time")
-    private String checkinTime;  // TIME in SQL can be mapped to String or LocalTime
+    private String checkinTime;  // TIME in SQL can be mapped to String or LocalTime || prima era string
 
     @Column(name = "checkout_Time")
     private String checkoutTime;  // TIME in SQL can be mapped to String or LocalTime
