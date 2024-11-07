@@ -18,9 +18,8 @@ public interface HotelRepository extends JpaRepository<Hotel, Integer> {
             "where r.hotel.id = ?1 ")
     Page<Room> findAllRoomsByID(Pageable pageable, Integer hotelId);
     @Query("select distinct t " +
-            "from Room r " +
-            "join RoomType t on r.roomType.id=t.id " +
-            "join Hotel h on h.id=r.hotel.id " +
-            "where h.id=?1" )
+            "from RoomType t " +
+            "where t.hotel.id = ?1"
+             )
     Optional<List<RoomType>> findAllTypes(int hootelID);
 }

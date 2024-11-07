@@ -54,4 +54,8 @@ public class Booking {
     public String getHotelName() {
         return room.getHotel().getName();
     }
+    @JsonProperty("roomName")
+    public String getRoomName() {
+        return room.getRoomType().getName();
+    }
 }

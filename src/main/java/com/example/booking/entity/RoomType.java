@@ -14,9 +14,10 @@ import lombok.*;
 public class RoomType {
     @Id
     @Column(name = "TypeID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
-    @Column(name = "Name", nullable = false)
+    @Column(name = "Name", nullable = false, unique = true)
     private String name;
 
     @Column(name = "Description")
@@ -27,4 +28,7 @@ public class RoomType {
 
     @Column(name = "Capacity", nullable = false)
     private Integer capacity;
+    @ManyToOne
+    @JoinColumn(name = "HotelID", nullable = false)//, nullable = false
+    private Hotel hotel;
 }

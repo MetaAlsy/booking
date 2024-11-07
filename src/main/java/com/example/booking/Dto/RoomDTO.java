@@ -20,7 +20,7 @@ public class RoomDTO implements Serializable {
     private String status;
 
     public RoomType mapToRoomType() {
-        return  RoomType.builder().id(this.roomTypeID).name(this.name).description(this.description).capacity(this.capacity).pricePerNight(this.pricePerNight).build();
+        return  RoomType.builder().id((this.roomTypeID!=0)?this.roomTypeID:null).name(this.name).description(this.description).capacity(this.capacity).pricePerNight(this.pricePerNight).build();
     }
 
     public Room mapToRoom() {

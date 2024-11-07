@@ -22,7 +22,7 @@ public class AvailableRooms {
     private Integer id;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "Room", nullable = false)
     private Room room;
 

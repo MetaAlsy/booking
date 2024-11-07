@@ -21,7 +21,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
+
 public class HotelService {
     @Autowired
     private HotelRepository hotelRepository;
@@ -38,7 +38,7 @@ public class HotelService {
             return new ArrayList<>();
         }
     }
-
+    @Transactional
     public Hotel save(Hotel hotel,Authentication autenticatedCustomer) {
         Customer c = customerRepository.findById(autenticatedCustomer.getName())
                 .orElseThrow(()->new EntityNotFoundException("Utente non esiste"));
@@ -61,7 +61,7 @@ public class HotelService {
         return hotelRepository.findById(hotelId)
                 .orElseThrow(() -> new EntityNotFoundException("No hotel found with ID :: " + hotelId));
     }
-
+    @Transactional
     public Integer updateHotel(Hotel hotel, Authentication connectedUser) {
         if (!Objects.equals(hotel.getOwner().getId(), connectedUser.getName())) {
             throw new OperationNotPermittedException("You cannot update others hotels");

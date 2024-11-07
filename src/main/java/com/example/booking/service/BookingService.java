@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-@Transactional
+
 public class BookingService {
     @Autowired
     private BookingRepository bookingRepository;
@@ -35,7 +35,7 @@ public class BookingService {
     @Autowired
     private AvailableRoomsRepository availableRoomsRepository;
 
-
+    @Transactional
     public Booking save(BookingDto booking, Authentication connectedUser) {
 
         LocalDate dataIni = LocalDate.parse(booking.getCheckinDate());
@@ -61,7 +61,7 @@ public class BookingService {
 
     public List<Booking> findAllBookings(int page, int size, Authentication connectedUser) {
         Pageable paging = PageRequest.of(page, size, Sort.by("checkinDate").descending());
-        Page<Booking> pagedResult = bookingRepository.findAllBookings(paging,connectedUser.getName());
+        Page<Booking> pagedResult = bookingRepository.findAllBookings(paging,connectedUser.getName(),LocalDate.now());
         if ( pagedResult.hasContent() ) {
             return pagedResult.getContent();
         }
@@ -78,7 +78,7 @@ public class BookingService {
         }
         return booking;
     }
-
+    @Transactional
     public Integer cancelBooking(int bookingId, Authentication connectedUser) {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new EntityNotFoundException("No such booking  :: " + bookingId));

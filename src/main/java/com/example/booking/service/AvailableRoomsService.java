@@ -18,12 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Transactional
+
 public class AvailableRoomsService {
     @Autowired
     private AvailableRoomsRepository availableRoomsRepository;
     @Autowired
     private RoomRepository roomRepository;
+    @Transactional
     public Integer addDate(Integer roomId, LocalDate iniDate, LocalDate finDate) {
         if (iniDate.isAfter(finDate)) {
             throw new IllegalArgumentException("Start after finish");
@@ -54,7 +55,7 @@ public class AvailableRoomsService {
             return new ArrayList<>();
         }
     }
-
+    @Transactional
     public Integer changeState(Integer id) {
         AvailableRooms ar = this.availableRoomsRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Date not exist"));
         ar.setStatus(!ar.getStatus());

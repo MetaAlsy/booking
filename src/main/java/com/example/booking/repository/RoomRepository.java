@@ -20,8 +20,8 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
             "(lower(r.hotel.address) like LOWER( concat(?2,'%')) or ?2 is null) and " +
             "(r.roomType.pricePerNight >= ?3 or ?3 is null) and " +
             "(lower( r.roomType.name) like LOWER( concat(?4,'%')) or ?4 is null ) and " +
-            "(r.roomType.capacity >= ?5 or ?5 is null) and " +
-            "exists (" +
+            "(r.roomType.capacity >= ?5 or ?5 is null) and r.status='available' " +
+            "and exists (" +
             "       select ar " +
             "       from AvailableRooms ar " +
             "       where ar.room = r" +

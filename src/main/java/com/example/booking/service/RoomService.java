@@ -41,10 +41,13 @@ public class RoomService {
     @Transactional
     public Integer save(RoomDTO request, Authentication connectedUser) {
         Hotel h = hotelService.findById(request.getHotelID());
-        RoomType rt = request.mapToRoomType();
-        if( roomTypeRepository.findById(request.getRoomTypeID()).isEmpty()){
-             roomTypeRepository.save(rt);
+        RoomType rt= request.mapToRoomType();
+        rt.setHotel(h);
 
+        if (roomTypeRepository.findById(request.getRoomTypeID()).isEmpty()) {
+            roomTypeRepository.save(rt);
+        } else {
+            rt = roomTypeRepository.findById(request.getRoomTypeID()).get();
         }
 
         if (h!=null &&!Objects.equals(h.getOwner().getId(), connectedUser.getName())) {
@@ -53,6 +56,25 @@ public class RoomService {
         Room r = request.mapToRoom();
         r.setHotel(h);
         r.setRoomType(rt);
+
+        return roomRepository.save(r).getId();
+    }
+    @Transactional
+    public Integer updateRoom(RoomDTO request, Authentication connectedUser) {
+        Hotel h = hotelService.findById(request.getHotelID());
+        if (h!=null &&!Objects.equals(h.getOwner().getId(), connectedUser.getName())) {
+            throw new OperationNotPermittedException("You cannot Update room in this hotel");
+        }
+
+
+        Room r = roomRepository.findByHotel_IdAndAndRoomNumber(request.getHotelID(), request.getRoomNumber())
+                .orElseThrow(()->new EntityNotFoundException("Room non trovata"));
+
+        RoomType rt= request.mapToRoomType();
+        rt.setHotel(h);
+        roomTypeRepository.save(rt);
+        r.setRoomType(rt);
+        r.setStatus(request.getStatus());
 
         return roomRepository.save(r).getId();
     }

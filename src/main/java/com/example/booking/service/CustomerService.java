@@ -2,6 +2,7 @@ package com.example.booking.service;
 
 import com.example.booking.entity.Customer;
 import com.example.booking.repository.CustomerRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,7 @@ public class CustomerService {
     public Optional<Customer> findCustomerById(String userId) {
         return customerRepository.findById(userId);
     }
-
+    @Transactional
     public void saveCustomer(Customer c) {
         customerRepository.save(c);
     }

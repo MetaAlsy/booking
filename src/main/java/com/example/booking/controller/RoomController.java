@@ -36,6 +36,14 @@ public class RoomController {
     ) {
         return ResponseEntity.ok(roomService.save(request, connectedUser));
     }
+    @PostMapping("/update")
+    @PreAuthorize("hasRole('owner')")
+    public ResponseEntity<Integer> updateRoom(
+            @Valid @RequestBody RoomDTO request,
+            Authentication connectedUser
+    ) {
+        return ResponseEntity.ok(roomService.updateRoom(request, connectedUser));
+    }
     @PostMapping("/aviable/{id}")
     @PreAuthorize("hasRole('owner')")
     public ResponseEntity<Integer> addAvaibleDateToRoom(@PathVariable Integer id,@RequestParam(name = "iniDate", required = true) LocalDate iniDate,
@@ -46,7 +54,7 @@ public class RoomController {
             return ResponseEntity.ok(availableRoomsService.addDate(id, iniDate,null));
     }
     @GetMapping("/dates/{id}")
-    @PreAuthorize("hasRole('owner')")
+    //@PreAuthorize("hasRole('owner')")
     public ResponseEntity<List<AvailableRooms>> findAviableDates(@PathVariable Integer id,
                                                                  @RequestParam(name = "page", defaultValue = "0", required = false) int page,
                                                                  @RequestParam(name = "size", defaultValue = "10", required = false) int size,
